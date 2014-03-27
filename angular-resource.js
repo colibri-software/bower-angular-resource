@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.16-build.51+sha.69e5c36
+ * @license AngularJS v1.2.16-local+sha.54f1079
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -564,7 +564,9 @@ angular.module('ngResource', ['ng']).
           promise = promise.then(
               function(response) {
                 var value = responseInterceptor(response);
-                (success||noop)(value, response.headers);
+                $q.when(value).then(function(value) {
+                  (success||noop)(value, response.headers);
+                });
                 return value;
               },
               responseErrorInterceptor);
